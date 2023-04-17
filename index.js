@@ -20,7 +20,7 @@ function draw(canvas) {
     canvas.addEventListener("mousemove", drawRect);
     canvas.addEventListener("touchmove", drawRect);
     canvas.addEventListener("mouseup", function() {canvas.removeEventListener("mousemove", drawRect)});
-    canvas.addEventListener("mouseup", function() {canvas.removeEventListener("touchmove", drawRect)});
+    canvas.addEventListener("touchend", function() {canvas.removeEventListener("touchmove", drawRect)});
 }
 
 function prepareApp(parent) {
@@ -33,6 +33,9 @@ function prepareApp(parent) {
     canvas.setAttribute("height", "362px");
     canvas.setAttribute("width", "643px");
     canvas.addEventListener("mousedown", function() {
+        draw(this)
+    });
+    canvas.addEventListener("touchstart", function() {
         draw(this)
     });
     parent.append(canvas);
