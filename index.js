@@ -8,6 +8,7 @@ function changeCurrentColor(newColor) {
 function draw(canvas) {
 
     c = canvas.getContext("2d");
+    c.beginPath()
     c.fillStyle = currentColor;
 
     function drawRect() {
