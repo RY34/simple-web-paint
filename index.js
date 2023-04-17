@@ -18,7 +18,9 @@ function draw(canvas) {
     drawRect();
 
     canvas.addEventListener("mousemove", drawRect);
+    canvas.addEventListener("touchmove", drawRect);
     canvas.addEventListener("mouseup", function() {canvas.removeEventListener("mousemove", drawRect)});
+    canvas.addEventListener("mouseup", function() {canvas.removeEventListener("touchmove", drawRect)});
 }
 
 function prepareApp(parent) {
