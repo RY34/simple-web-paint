@@ -1,8 +1,10 @@
 let currentColor = "rgb(0, 0, 0)"
+let currentColorIndicator = document.createElement("div");
 
 function changeCurrentColor(newColor) {
 
     currentColor = newColor
+    currentColorIndicator.style.backgroundColor = currentColor;
 }
 
 function draw(canvas) {
@@ -54,7 +56,22 @@ function prepareApp(parent) {
         });
         colorPal.append(c);
     }
-    parent.append(colorPal)
+    let customColor = document.createElement("input");
+    customColor.setAttribute("placeholder", "#000000");
+    customColor.addEventListener("keypress", e => {
+        if(e.key === 'Enter') {
+            changeCurrentColor(customColor.value);
+        }});
+    colorPal.append(customColor);
+
+    parent.append(colorPal);
+
+    currentColorIndicator.style.border = "1px solid black";
+    currentColorIndicator.style.backgroundColor = currentColor;
+    currentColorIndicator.style.width = "50px";
+    currentColorIndicator.style.height = "50px";
+
+    parent.append(currentColorIndicator);
 }
 
 
