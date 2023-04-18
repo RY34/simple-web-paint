@@ -14,10 +14,11 @@ function draw(canvas) {
     c.fillStyle = currentColor;
     c.strokeStyle = currentColor;
     c.lineWidth = size;
+    c.lineCap = "round";
     cursorPosX = event.clientX-canvas.offsetLeft;
     cursorPosY = event.clientY-canvas.offsetTop;
     c.beginPath();
-    c.moveTo(cursorPosX-size, cursorPosY);
+    c.moveTo(cursorPosX, cursorPosY);
 
     function drawRect() {
         cursorPosX = event.clientX-canvas.offsetLeft;
@@ -91,7 +92,6 @@ function prepareApp(parent) {
         }});
     parent.append(changeSize);
 }
-
 
 document.addEventListener("DOMContentLoaded", function() {
 
