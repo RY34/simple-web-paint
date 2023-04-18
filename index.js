@@ -1,5 +1,6 @@
 let currentColor = "rgb(0, 0, 0)"
 let currentColorIndicator = document.createElement("div");
+let size = 4
 
 function changeCurrentColor(newColor) {
 
@@ -10,13 +11,20 @@ function changeCurrentColor(newColor) {
 function draw(canvas) {
 
     c = canvas.getContext("2d");
-    c.beginPath()
     c.fillStyle = currentColor;
+    c.strokeStyle = currentColor;
+    c.lineWidth = size;
+    cursorPosX = event.clientX-canvas.offsetLeft;
+    cursorPosY = event.clientY-canvas.offsetTop;
+    c.beginPath();
+    c.moveTo(cursorPosX-size, cursorPosY);
 
     function drawRect() {
-        cursorPosX = event.clientX;
-        cursorPosY = event.clientY;
-        c.fillRect(cursorPosX-51, cursorPosY, 10, 10);
+        cursorPosX = event.clientX-canvas.offsetLeft;
+        cursorPosY = event.clientY-canvas.offsetTop;
+        
+        c.lineTo(cursorPosX, cursorPosY);
+        c.stroke();
     }
     drawRect();
 
@@ -60,7 +68,8 @@ function prepareApp(parent) {
     customColor.setAttribute("placeholder", "#000000");
     customColor.addEventListener("keypress", e => {
         if(e.key === 'Enter') {
-            changeCurrentColor(customColor.value);
+            if(customColor.value!="")
+                changeCurrentColor(customColor.value);
         }});
     colorPal.append(customColor);
 
@@ -72,6 +81,15 @@ function prepareApp(parent) {
     currentColorIndicator.style.height = "50px";
 
     parent.append(currentColorIndicator);
+
+    changeSize = document.createElement("input")
+    changeSize.setAttribute("placeholder", "Size")
+    changeSize.addEventListener("keypress", e => {
+        if(e.key === 'Enter') {
+            if(changeSize.value!="")
+                size = changeSize.value;
+        }});
+    parent.append(changeSize);
 }
 
 
