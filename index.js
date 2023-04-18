@@ -26,7 +26,7 @@ function draw(canvas) {
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
-
+    c.canvas.style.touchAction = "none";
     function drawRect() {
         
         getCord()
