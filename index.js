@@ -38,8 +38,8 @@ function draw(canvas) {
     }
     drawRect();
 
-    canvas.addEventListener("mousemove", drawRect);
-    canvas.addEventListener("mouseup", function() {canvas.removeEventListener("mousemove", drawRect)});
+    canvas.addEventListener("pointermove", drawRect);
+    canvas.addEventListener("mouseup", function() {canvas.removeEventListener("pointermove", drawRect)});
 }
 
 function prepareApp(parent) {
