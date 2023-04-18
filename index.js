@@ -1,7 +1,8 @@
 let currentColor = "rgb(0, 0, 0)";
 let currentColorIndicator = document.createElement("div");
 let size = 4;
-let cursorPosX, cursorPosY, prevX, prevY;
+let cursorPosX, cursorPosY, prevX, prevY;;
+const version = "0.0.2"
 
 function getCord() {
 
@@ -13,7 +14,7 @@ function getCord() {
 
 function changeCurrentColor(newColor) {
 
-    currentColor = newColor
+    currentColor = newColor;
     currentColorIndicator.style.backgroundColor = currentColor;
 }
 
@@ -25,6 +26,7 @@ function draw(canvas) {
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
+    c.canvas.style.touchAction = "none";
 
     function drawRect() {
         
@@ -37,9 +39,7 @@ function draw(canvas) {
     drawRect();
 
     canvas.addEventListener("mousemove", drawRect);
-    canvas.addEventListener("touchmove", drawRect);
     canvas.addEventListener("mouseup", function() {canvas.removeEventListener("mousemove", drawRect)});
-    canvas.addEventListener("touchend", function() {canvas.removeEventListener("touchmove", drawRect)});
 }
 
 function prepareApp(parent) {
@@ -52,9 +52,6 @@ function prepareApp(parent) {
     canvas.setAttribute("height", "362px");
     canvas.setAttribute("width", "643px");
     canvas.addEventListener("mousedown", function() {
-        draw(this)
-    });
-    canvas.addEventListener("touchstart", function() {
         draw(this)
     });
     parent.append(canvas);
