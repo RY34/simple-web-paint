@@ -26,7 +26,6 @@ function draw(canvas) {
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
-    c.canvas.style.touchAction = "none";
 
     function drawRect() {
         
@@ -39,7 +38,7 @@ function draw(canvas) {
     drawRect();
 
     canvas.addEventListener("pointermove", drawRect);
-    canvas.addEventListener("mouseup", function() {canvas.removeEventListener("pointermove", drawRect)});
+    canvas.addEventListener("pointerup", function() {canvas.removeEventListener("pointermove", drawRect)});
 }
 
 function prepareApp(parent) {
@@ -51,7 +50,7 @@ function prepareApp(parent) {
     canvas.style.left = "51px";
     canvas.setAttribute("height", "362px");
     canvas.setAttribute("width", "643px");
-    canvas.addEventListener("mousedown", function() {
+    canvas.addEventListener("pointerdown", function() {
         draw(this)
     });
     parent.append(canvas);
