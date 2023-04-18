@@ -1,6 +1,15 @@
-let currentColor = "rgb(0, 0, 0)"
+let currentColor = "rgb(0, 0, 0)";
 let currentColorIndicator = document.createElement("div");
-let size = 4
+let size = 4;
+let cursorPosX, cursorPosY, prevX, prevY;
+
+function getCord() {
+
+    prevX = cursorPosX;
+    prevY = cursorPosY;
+    cursorPosX = event.clientX-canvas.offsetLeft;
+    cursorPosY = event.clientY-canvas.offsetTop;
+}
 
 function changeCurrentColor(newColor) {
 
@@ -10,20 +19,18 @@ function changeCurrentColor(newColor) {
 
 function draw(canvas) {
 
+    getCord();
     c = canvas.getContext("2d");
     c.fillStyle = currentColor;
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
-    cursorPosX = event.clientX-canvas.offsetLeft;
-    cursorPosY = event.clientY-canvas.offsetTop;
-    c.beginPath();
-    c.moveTo(cursorPosX, cursorPosY);
 
     function drawRect() {
-        cursorPosX = event.clientX-canvas.offsetLeft;
-        cursorPosY = event.clientY-canvas.offsetTop;
         
+        getCord()
+        c.beginPath();
+        c.moveTo(prevX, prevY);
         c.lineTo(cursorPosX, cursorPosY);
         c.stroke();
     }
