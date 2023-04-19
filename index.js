@@ -4,6 +4,12 @@ let size = 4;
 let cursorPosX, cursorPosY, prevX, prevY;;
 const version = "0.0.2"
 
+function saveImg(canvas, download) {
+
+    const img = canvas.toDataURL('image/png');
+    download.setAttribute("href", img);
+}
+
 function getCord() {
 
     prevX = cursorPosX;
@@ -74,6 +80,7 @@ function prepareApp(parent) {
         if(e.key === 'Enter') {
             if(customColor.value!="")
                 changeCurrentColor(customColor.value);
+                customColor.value = "";
         }});
     colorPal.append(customColor);
 
@@ -92,8 +99,18 @@ function prepareApp(parent) {
         if(e.key === 'Enter') {
             if(changeSize.value!="")
                 size = changeSize.value;
+                changeSize.value = "";
         }});
     parent.append(changeSize);
+
+    saveBtn = document.createElement("button");
+    saveBtn.innerText = "Save"
+    downloadBtn = document.createElement("a");
+    downloadBtn.setAttribute("download", "image");
+    downloadBtn.innerText = "Download";
+    saveBtn.addEventListener("click", function(){saveImg(canvas, downloadBtn)});
+    parent.append(saveBtn);
+    parent.append(downloadBtn);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
