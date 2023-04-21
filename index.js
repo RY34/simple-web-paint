@@ -1,6 +1,7 @@
 let currentColor = "rgb(0, 0, 0)";
 let currentColorIndicator = document.createElement("div");
 let size = 4;
+let bgColor = "rgba(255, 255, 255, 255)";
 let cursorPosX, cursorPosY, prevX, prevY;;
 const version = "0.0.2"
 
@@ -24,10 +25,9 @@ function changeCurrentColor(newColor) {
     currentColorIndicator.style.backgroundColor = currentColor;
 }
 
-function draw(canvas) {
+function draw(c) {
 
     getCord();
-    c = canvas.getContext("2d");
     c.fillStyle = currentColor;
     c.strokeStyle = currentColor;
     c.lineWidth = size;
@@ -41,7 +41,7 @@ function draw(canvas) {
         c.lineTo(cursorPosX, cursorPosY);
         c.stroke();
     }
-    drawRect();
+    drawRect(c);
 
     canvas.addEventListener("pointermove", drawRect);
     canvas.addEventListener("pointerup", function() {canvas.removeEventListener("pointermove", drawRect)});
@@ -56,8 +56,11 @@ function prepareApp(parent) {
     canvas.style.left = "51px";
     canvas.setAttribute("height", "362px");
     canvas.setAttribute("width", "643px");
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0,0, canvas.width, canvas.height)
     canvas.addEventListener("pointerdown", function() {
-        draw(this)
+        draw(ctx)
     });
     parent.append(canvas);
     
@@ -103,14 +106,26 @@ function prepareApp(parent) {
         }});
     parent.append(changeSize);
 
-    saveBtn = document.createElement("button");
+    let saveBtn = document.createElement("button");
     saveBtn.innerText = "Save"
-    downloadBtn = document.createElement("a");
+    let downloadBtn = document.createElement("a");
     downloadBtn.setAttribute("download", "image");
     downloadBtn.innerText = "Download";
     saveBtn.addEventListener("click", function(){saveImg(canvas, downloadBtn)});
     parent.append(saveBtn);
     parent.append(downloadBtn);
+
+    let changeBgColor = document.createElement("input");
+    changeBgColor.setAttribute("placeholder", "Background Color");
+    changeBgColor.addEventListener("keypress", e => {
+        if(e.key === 'Enter') {
+            if(changeBgColor.value!="")
+                bgColor = changeBgColor.value;
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0,0, canvas.width, canvas.height);
+                changeBgColor.value = "";
+        }});
+    parent.append(changeBgColor);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
