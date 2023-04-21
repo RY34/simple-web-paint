@@ -3,7 +3,7 @@ let currentColorIndicator = document.createElement("div");
 let size = 4;
 let bgColor = "rgba(255, 255, 255, 255)";
 let cursorPosX, cursorPosY, prevX, prevY;;
-const version = "0.0.2"
+const version = "0.0.3"
 
 function saveImg(canvas, download) {
 
@@ -119,11 +119,18 @@ function prepareApp(parent) {
     changeBgColor.setAttribute("placeholder", "Background Color");
     changeBgColor.addEventListener("keypress", e => {
         if(e.key === 'Enter') {
-            if(changeBgColor.value!="")
+            if(changeBgColor.value!="") {
                 bgColor = changeBgColor.value;
                 ctx.fillStyle = bgColor;
                 ctx.fillRect(0,0, canvas.width, canvas.height);
                 changeBgColor.value = "";
+            }
+            else if(changeBgColor.value=="transparent") {
+                bgColor = "rgba(0, 0, 0, 0)";
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0,0, canvas.width, canvas.height);
+                changeBgColor.value = "";
+            }   
         }});
     parent.append(changeBgColor);
 }
