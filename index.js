@@ -80,11 +80,16 @@ function prepareApp(parent) {
     }
     let customColor = document.createElement("input");
     customColor.setAttribute("type", "color");
+    customColor.setAttribute("name", "brush")
+    let customColorLabel = document.createElement("label");
+    customColorLabel.setAttribute("for", "brush");
+    customColorLabel.innerText = "<< Choose brush color!"
     customColor.addEventListener("change", function() {
         changeCurrentColor(customColor.value);
         customColor.value = "";
     });
     colorPal.append(customColor);
+    colorPal.append(customColorLabel);
 
     parent.append(colorPal);
 
@@ -115,7 +120,10 @@ function prepareApp(parent) {
 
     let changeBgColor = document.createElement("input");
     changeBgColor.setAttribute("type", "color");
-    changeBgColor.setAttribute("placeholder", "Background Color");
+    changeBgColor.setAttribute("name", " bg");
+    let changeBgColorLabel = document.createElement("label");
+    changeBgColorLabel.setAttribute("for", "bg");
+    changeBgColorLabel.innerText = "<< Choose background color!"
     changeBgColor.addEventListener("change", function() {
         if(changeBgColor.value!="") {
             bgColor = changeBgColor.value;
@@ -131,6 +139,7 @@ function prepareApp(parent) {
         }   
     });
     parent.append(changeBgColor);
+    parent.append(changeBgColorLabel);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
