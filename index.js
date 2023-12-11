@@ -79,13 +79,12 @@ function prepareApp(parent) {
         colorPal.append(c);
     }
     let customColor = document.createElement("input");
-    customColor.setAttribute("placeholder", "#000000");
-    customColor.addEventListener("keypress", e => {
-        if(e.key === 'Enter') {
-            if(customColor.value!="")
-                changeCurrentColor(customColor.value);
-                customColor.value = "";
-        }});
+    customColor.setAttribute("type", "color");
+    customColor.addEventListener("change", function() {
+        if(customColor.value!="")
+            changeCurrentColor(customColor.value);
+            customColor.value = "";
+    });
     colorPal.append(customColor);
 
     parent.append(colorPal);
