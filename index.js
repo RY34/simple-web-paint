@@ -81,9 +81,8 @@ function prepareApp(parent) {
     let customColor = document.createElement("input");
     customColor.setAttribute("type", "color");
     customColor.addEventListener("change", function() {
-        if(customColor.value!="")
-            changeCurrentColor(customColor.value);
-            customColor.value = "";
+        changeCurrentColor(customColor.value);
+        customColor.value = "";
     });
     colorPal.append(customColor);
 
