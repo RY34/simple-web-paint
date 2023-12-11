@@ -2,13 +2,14 @@ let currentColor = "rgb(0, 0, 0)";
 let currentColorIndicator = document.createElement("div");
 let size = 4;
 let bgColor = "rgba(255, 255, 255, 255)";
-let cursorPosX, cursorPosY, prevX, prevY;;
+let cursorPosX, cursorPosY, prevX, prevY;
 const version = "0.0.3"
 
 function saveImg(canvas, download) {
 
     const img = canvas.toDataURL('image/png');
     download.setAttribute("href", img);
+    download.click()
 }
 
 function getCord() {
@@ -113,31 +114,29 @@ function prepareApp(parent) {
     downloadBtn.innerText = "Download";
     saveBtn.addEventListener("click", function(){saveImg(canvas, downloadBtn)});
     parent.append(saveBtn);
-    parent.append(downloadBtn);
 
     let changeBgColor = document.createElement("input");
+    changeBgColor.setAttribute("type", "color");
     changeBgColor.setAttribute("placeholder", "Background Color");
-    changeBgColor.addEventListener("keypress", e => {
-        if(e.key === 'Enter') {
-            if(changeBgColor.value!="") {
-                bgColor = changeBgColor.value;
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0,0, canvas.width, canvas.height);
-                changeBgColor.value = "";
-            }
-            else if(changeBgColor.value=="transparent") {
-                bgColor = "rgba(0, 0, 0, 0)";
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0,0, canvas.width, canvas.height);
-                changeBgColor.value = "";
-            }   
-        }});
+    changeBgColor.addEventListener("change", function() {
+        if(changeBgColor.value!="") {
+            bgColor = changeBgColor.value;
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0,0, canvas.width, canvas.height);
+            changeBgColor.value = "";
+        }
+        else if(changeBgColor.value=="transparent") {
+            bgColor = "rgba(0, 0, 0, 0)";
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0,0, canvas.width, canvas.height);
+            changeBgColor.value = "";
+        }   
+    });
     parent.append(changeBgColor);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
 
     const app = document.querySelector("#app");
-    
     prepareApp(app);
 });
