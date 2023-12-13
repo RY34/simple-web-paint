@@ -12,7 +12,7 @@ function saveImg(canvas, download) {
     download.click()
 }
 
-function getCord() {
+function getCord(event) {
 
     prevX = cursorPosX;
     prevY = cursorPosY;
@@ -26,25 +26,25 @@ function changeCurrentColor(newColor) {
     currentColorIndicator.style.backgroundColor = currentColor;
 }
 
-function draw(c) {
+function draw(c, event) {
 
-    getCord();
+    getCord(event);
     c.fillStyle = currentColor;
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
     canvas.style.touchAction = "none";
-    function drawRect() {
+    function drawRect(c, event) {
         
-        getCord()
+        getCord(event)
         c.beginPath();
         c.moveTo(prevX, prevY);
         c.lineTo(cursorPosX, cursorPosY);
         c.stroke();
     }
-    drawRect(c);
+    drawRect(c, event);
 
-    canvas.addEventListener("pointermove", drawRect);
+    canvas.addEventListener("pointermove", (event) => {drawRect(c, event)});
     canvas.addEventListener("pointerup", function() {canvas.removeEventListener("pointermove", drawRect)});
 }
 
@@ -60,8 +60,8 @@ function prepareApp(parent) {
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = bgColor;
     ctx.fillRect(0,0, canvas.width, canvas.height)
-    canvas.addEventListener("pointerdown", function() {
-        draw(ctx)
+    canvas.addEventListener("pointerdown", (event) => {
+        draw(ctx, event)
     });
     parent.append(canvas);
     
@@ -85,8 +85,7 @@ function prepareApp(parent) {
     customColorLabel.setAttribute("for", "brush");
     customColorLabel.innerText = "<< Choose brush color!"
     customColor.addEventListener("change", function() {
-        changeCurrentColor(customColor.value);
-        customColor.value = "";
+        changeCurrentColor(customColor.value)
     });
     colorPal.append(customColor);
     colorPal.append(customColorLabel);
@@ -125,18 +124,9 @@ function prepareApp(parent) {
     changeBgColorLabel.setAttribute("for", "bg");
     changeBgColorLabel.innerText = "<< Choose background color!"
     changeBgColor.addEventListener("change", function() {
-        if(changeBgColor.value!="") {
-            bgColor = changeBgColor.value;
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0,0, canvas.width, canvas.height);
-            changeBgColor.value = "";
-        }
-        else if(changeBgColor.value=="transparent") {
-            bgColor = "rgba(0, 0, 0, 0)";
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0,0, canvas.width, canvas.height);
-            changeBgColor.value = "";
-        }   
+        bgColor = changeBgColor.value;
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0,0, canvas.width, canvas.height);
     });
     parent.append(changeBgColor);
     parent.append(changeBgColorLabel);
