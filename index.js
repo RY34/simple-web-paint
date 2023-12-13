@@ -1,5 +1,4 @@
 let currentColor = "rgb(0, 0, 0)";
-let currentColorIndicator = document.createElement("div");
 let size = 4;
 let bgColor = "rgba(255, 255, 255, 255)";
 let cursorPosX, cursorPosY, prevX, prevY;
@@ -12,40 +11,44 @@ function saveImg(canvas, download) {
     download.click()
 }
 
-function getCord(event) {
+function getCord(e) {
 
     prevX = cursorPosX;
     prevY = cursorPosY;
-    cursorPosX = event.clientX-canvas.offsetLeft;
-    cursorPosY = event.clientY-canvas.offsetTop;
+    cursorPosX = e.clientX-canvas.offsetLeft;
+    cursorPosY = e.clientY-canvas.offsetTop;
+    console.log(cursorPosX);
 }
 
 function changeCurrentColor(newColor) {
 
     currentColor = newColor;
-    currentColorIndicator.style.backgroundColor = currentColor;
 }
 
-function draw(c, event) {
+function draw(c, e) {
 
-    getCord(event);
+    getCord(e);
     c.fillStyle = currentColor;
     c.strokeStyle = currentColor;
     c.lineWidth = size;
     c.lineCap = "round";
     canvas.style.touchAction = "none";
-    function drawRect(c, event) {
+    function drawRect(c, e) {
         
-        getCord(event)
+        getCord(e)
         c.beginPath();
         c.moveTo(prevX, prevY);
         c.lineTo(cursorPosX, cursorPosY);
         c.stroke();
     }
-    drawRect(c, event);
+    drawRect(c, e);
 
-    canvas.addEventListener("pointermove", (event) => {drawRect(c, event)});
-    canvas.addEventListener("pointerup", function() {canvas.removeEventListener("pointermove", drawRect)});
+    function eventHandler(event) {
+        drawRect(c, event);
+    }
+
+    canvas.addEventListener("pointermove", eventHandler);
+    canvas.addEventListener("pointerup", function() {canvas.removeEventListener("pointermove", eventHandler)});
 }
 
 function prepareApp(parent) {
@@ -91,13 +94,6 @@ function prepareApp(parent) {
     colorPal.append(customColorLabel);
 
     parent.append(colorPal);
-
-    currentColorIndicator.style.border = "1px solid black";
-    currentColorIndicator.style.backgroundColor = currentColor;
-    currentColorIndicator.style.width = "50px";
-    currentColorIndicator.style.height = "50px";
-
-    parent.append(currentColorIndicator);
 
     changeSize = document.createElement("input")
     changeSize.setAttribute("placeholder", "Size")
