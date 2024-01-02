@@ -2,7 +2,8 @@ let currentColor = "rgb(0, 0, 0)";
 let size = 4;
 let bgColor = "rgba(255, 255, 255, 255)";
 let cursorPosX, cursorPosY, prevX, prevY;
-const version = "0.0.3"
+let customColor = document.createElement("input");
+const version = "0.0.5"
 
 function saveImg(canvas, download) {
 
@@ -17,12 +18,13 @@ function getCord(e) {
     prevY = cursorPosY;
     cursorPosX = e.clientX-canvas.offsetLeft;
     cursorPosY = e.clientY-canvas.offsetTop;
-    console.log(cursorPosX);
 }
 
 function changeCurrentColor(newColor) {
 
     currentColor = newColor;
+    console.log(newColor);
+    customColor.value = newColor;
 }
 
 function draw(c, e) {
@@ -75,13 +77,13 @@ function prepareApp(parent) {
         c.style.height = "50px";
         c.style.width = "50px";
         c.style.backgroundColor = colors[i];
+        c.setAttribute("name", colors[i]);
         c.style.border = "1px solid black"
         c.addEventListener("click", function() {
-            changeCurrentColor(this.style.backgroundColor)
+            changeCurrentColor(this.getAttribute("name"));
         });
         colorPal.append(c);
     }
-    let customColor = document.createElement("input");
     customColor.setAttribute("type", "color");
     customColor.setAttribute("name", "brush")
     let customColorLabel = document.createElement("label");
